@@ -1,0 +1,60 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <title>Generate G-calendar import.</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'genclass/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'genclass/css/style.css' %}">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="container row">
+            <section id="header" class="container col-sm-offset-4 col-sm-6">
+                <h2>Generate Google calendar import file from reg.kmitl</h2>
+            </section>
+            <section id="main" class="container col-sm-offset-4 col-sm-6">
+                <p>Save your reg.kmitl class calendar page then upload *.html to the page.</p>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Convert</button>
+                </form>
+            </section>
+        </div>
+
+        <div class="container row">
+            <section id="footer" class="container col-sm-offset-4 col-sm-6">
+                <p>Don't worry, We don't keep any data from a user.</p>
+                <p>This project purpose to try Django framework If you found any bug/problem Please tell me. Email: 58070077@kmitl.ac.th</p>
+                <p>Developed by <a href="http://www.cloudian.in.th">Cloudian Studio</a></p>
+            </section>
+        </div>
+
+    </body>
+
+    <script src="static/js/jquery-2.2.4.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+
+</html>
