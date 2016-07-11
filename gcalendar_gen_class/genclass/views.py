@@ -1,13 +1,27 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
-from .forms import UploadFile, handle_uploaded_file
+from .forms import UploadText, convert2calendar, get_time, create_csv_download
+
+import csv
 
 def index(request):
     if request.method == 'POST':
-        form = UploadFile(request.POST, request.FILES)
+        form = UploadText(request.POST)
         if form.is_valid():
-            html = handle_uploaded_file(request.FILES['file'])
-            return HttpResponse(html)
+            data = convert2calendar(form.cleaned_data['regHtml'])
+            open_day = form.cleaned_data['open_date_semester']
+            end_day = form.cleaned_data['end_date_semester']
+
+            content = create_csv_download(open_day, end_day, data)
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="export.csv"'
+            writer = csv.DictWriter(response, fieldnames=content['field_name'])
+
+            for i in content['content']:
+                writer.writerow(i)
+
+            return response
+
     else:
-        form = UploadFile()
+        form = UploadText()
     return render(request, 'genclass/index.html', {'form': form})
