@@ -27,10 +27,10 @@ def get_time(date_input):
     time = date_input[1].split("-")
 
     start_time = datetime.strptime(time[0], "%H:%M")
-    start_time = start_time.strftime("%I:%M %p")
+    start_time = start_time.strftime("T%H%M%S")
 
     end_time = datetime.strptime(time[1], "%H:%M")
-    end_time = end_time.strftime("%I:%M %p")
+    end_time = end_time.strftime("T%H%M%S")
 
     return {'start': start_time, 'end': end_time}
 
@@ -100,7 +100,7 @@ def create_csv_download(open_day, end_day, data):
     for day in range(del_days.days + 1):
         for s in subject:
             if (open_day + timedelta(day)).strftime("%a") == s['Day of Week']:
-                s['content']['Start Date'] = (open_day + timedelta(day)).strftime("%m/%d/%Y")
-                s['content']['End Date'] = (open_day + timedelta(day)).strftime("%m/%d/%Y")
+                s['content']['Start Date'] = (open_day + timedelta(day)).strftime("%Y%m%d")
+                s['content']['End Date'] = (open_day + timedelta(day)).strftime("%Y%m%d")
                 table.append(s['content'].copy())
     return {'content':table, 'field_name': field_name}
