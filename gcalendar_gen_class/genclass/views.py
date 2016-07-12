@@ -13,13 +13,10 @@ def index(request):
             end_day = form.cleaned_data['end_date_semester']
 
             content = create_csv_download(open_day, end_day, data)
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="export.csv"'
-            writer = csv.DictWriter(response, fieldnames=content['field_name'])
 
-            for i in content['content']:
-                writer.writerow(i)
-
+            response = HttpResponse(content_type='text/ics')
+            response['Content-Disposition'] = 'attachment; filename="export.ics"'
+            response.write(content)
             return response
 
     else:

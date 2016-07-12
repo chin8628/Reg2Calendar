@@ -19,11 +19,11 @@
         <![endif]-->
 
         <div class="container row">
-            <section id="header" class="container col-sm-offset-4 col-sm-6">
-                <h2>Generate Google calendar import file from reg.kmitl</h2>
+            <section id="header" class="container col-sm-offset-2 col-sm-10 col-md-offset-4 col-md-6">
+                <h2>Generate calendar file from reg.kmitl</h2>
             </section>
-            <section id="main" class="container col-sm-offset-4 col-sm-6">
-                <p>Save your reg.kmitl class calendar page then upload *.html to the page.</p>
+            <section id="main" class="container col-sm-offset-2 col-sm-10 col-md-offset-4 col-md-6">
+                <p>Copy source code of your student's table calendar page then put in form.</p>
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
@@ -35,17 +35,17 @@
         </div>
 
         <div class="container row">
-            <section id="footer" class="container col-sm-offset-4 col-sm-6">
-                <p>Don't worry, We don't keep any data from a user.</p>
+            <section id="footer" class="container col-sm-offset-2 col-sm-10 col-md-offset-4 col-md-6">
                 <p>This project purpose to try Django framework If you found any bug/problem Please tell me. Email: 58070077@kmitl.ac.th</p>
-                <p>Developed by <a href="http://www.cloudian.in.th">Cloudian Studio</a></p>
+                <p>Developed by <a href="http://www.cloudian.in.th">Cloudian Studio</a> | <a href="https://github.com/chin8628/Reg2Calendar">Github</a></p>
+                <p>The MIT License (MIT) | Copyright (c) 2016 Boonyarith Piriyothinkul</p>
             </section>
         </div>
 
     </body>
 
-    <script src="static/js/jquery-2.2.4.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
+    <script src="{% static 'genclass/js/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'genclass/js/bootstrap.min.js' %}"></script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
