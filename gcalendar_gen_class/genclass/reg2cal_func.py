@@ -13,9 +13,6 @@ class UploadText(forms.Form):
 
 def convert2calendar(text):
     soup = BeautifulSoup(text, "html.parser")
-
-    # Todo: check None type in case Non-html input before
-
     subTD = soup.find('table' ,attrs={'align':'center'}).find_all('td')
     pure_text = list()
     for i in subTD:
@@ -51,7 +48,7 @@ def get_DOW(date_str):
 def display(text):
     return text.decode("utf-8").replace('\r\n', '\n').replace("\;", ";").replace('("', '').replace('("', '').replace('\,', ',').replace('",)', '').strip()
 
-def create_csv_download(open_day, end_day, data):
+def create_ical_download(open_day, end_day, data):
 
     open_day = datetime.strptime(open_day, "%Y-%m-%d").strftime("%Y%m%d")
     end_day = (datetime.strptime(end_day, "%Y-%m-%d") + timedelta(1)).strftime("%Y%m%d")
@@ -98,3 +95,34 @@ def create_csv_download(open_day, end_day, data):
         cnt += 8
 
     return display(cal.to_ical())
+
+def getSubject(data):
+
+    subject_list = list()
+
+    cnt = 13
+    while (cnt < len(data) - 13):
+        subject = dict()
+        time = get_time(data[cnt + 5])
+        day_of_week = get_DOW(data[cnt + 5])
+
+        # first_date is date that subject is begin first time
+        # loop run until found date that day of week equal day of week from student's table
+        first_date = datetime.strptime(open_day, "%Y%m%d")
+        while first_date.strftime("%a").upper()[:2] != day_of_week:
+            first_date = first_date + timedelta(1)
+        first_date = first_date.strftime("%Y%m%d")
+
+        subject['subject'] = data[cnt + 2]
+        subject['date_start'] = first_date
+        subject['time_start'] = time['start']
+        subject['date_end'] = first_date
+        subject['time_end'] = time['end']
+        subject['day_of_week'] = day_of_week
+        subject['description'] = "Just test"
+        subject['location'] = "King Mongkut's Institute of Technology Ladkrabang, 1 Chalong Krung, Thanon Chalong Krung, Lat Krabang, Bangkok 10520"
+
+        subject_list.append(subject)
+        cnt += 8
+
+    return subject_list
