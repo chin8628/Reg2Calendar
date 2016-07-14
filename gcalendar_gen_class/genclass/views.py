@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
-from .forms import UploadText, convert2calendar, get_time, create_csv_download
+from .reg2cal_func import UploadText, convert2calendar, get_time, create_ical_download
 
 import csv
 
