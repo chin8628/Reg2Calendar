@@ -50,8 +50,8 @@ def display(text):
 
 def create_ical_download(open_day, end_day, data):
 
-    open_day = datetime.strptime(open_day, "%Y-%m-%d").strftime("%Y%m%d")
-    end_day = (datetime.strptime(end_day, "%Y-%m-%d") + timedelta(1)).strftime("%Y%m%d")
+    semester_open_day = datetime.strptime(open_day, "%Y-%m-%d").strftime("%Y%m%d")
+    semester_end_day = (datetime.strptime(end_day, "%Y-%m-%d") + timedelta(1)).strftime("%Y%m%d")
 
     description_list = {
                     'code': 'รหัสวิชา',
