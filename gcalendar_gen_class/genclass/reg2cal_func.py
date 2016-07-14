@@ -154,6 +154,4 @@ def getDescription(subject, origin_datetime):
     desc_text += "Time: " + description_list['datetime'] + "\n"
     desc_text += "Building: " + description_list['class'] + "(" + description_list['building'] + ")\n"
 
-    print(desc_text)
-
     return desc_text
