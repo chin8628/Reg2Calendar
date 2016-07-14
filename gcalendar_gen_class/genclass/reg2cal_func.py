@@ -87,8 +87,9 @@ def create_ical_download(open_day, end_day, data):
 
     return display(cal.to_ical())
 
-def getSubject(data):
+def getSubject(semester_open_day, semester_end_day, data):
 
+    # Pattern of data
     # cnt+0 -> No. subject's row
     # cnt+1 -> ID subject
     # cnt+2 -> Subject's name
@@ -111,7 +112,7 @@ def getSubject(data):
 
         # first_date is date that subject is begin first time
         # loop run until found date that day of week equal day of week from student's table
-        first_date = datetime.strptime(open_day, "%Y%m%d")
+        first_date = datetime.strptime(semester_open_day, "%Y%m%d")
         while first_date.strftime("%a").upper()[:2] != day_of_week:
             first_date = first_date + timedelta(1)
         first_date = first_date.strftime("%Y%m%d")
