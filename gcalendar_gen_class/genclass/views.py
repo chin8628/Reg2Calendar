@@ -23,7 +23,12 @@ def index(request):
             response['Content-Disposition'] = 'attachment; filename="export.ics"'
             response.write(content)
             return response
-
     else:
         form = UploadText()
     return render(request, 'genclass/index.html', {'form': form})
+
+def success(request):
+    return render(request, 'genclass/success.html')
+
+def help(request):
+    return render(request, 'genclass/help.html')
