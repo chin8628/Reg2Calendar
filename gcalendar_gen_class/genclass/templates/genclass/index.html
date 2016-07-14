@@ -23,6 +23,9 @@
                 <h2>Generate calendar file from reg.kmitl</h2>
             </section>
             <section id="main" class="container col-sm-offset-2 col-sm-10 col-md-offset-4 col-md-6">
+                {% autoescape off %}
+                    {{ error }}
+                {% endautoescape %}
                 <p>Copy source code of your student's table calendar page then put in form.</p>
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}

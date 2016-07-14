@@ -13,7 +13,12 @@ class UploadText(forms.Form):
 
 def convert2calendar(text):
     soup = BeautifulSoup(text, "html.parser")
-    subTD = soup.find('table' ,attrs={'align':'center'}).find_all('td')
+
+    try:
+        subTD = soup.find('table' ,attrs={'align':'center'}).find_all('td')
+    except AttributeError:
+        return 0
+
     pure_text = list()
     for i in subTD:
         if i.text != "":
