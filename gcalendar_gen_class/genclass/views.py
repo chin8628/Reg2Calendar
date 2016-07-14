@@ -12,7 +12,7 @@ def index(request):
             open_day = form.cleaned_data['open_date_semester']
             end_day = form.cleaned_data['end_date_semester']
 
-            content = create_csv_download(open_day, end_day, data)
+            content = create_ical_download(open_day, end_day, data)
 
             response = HttpResponse(content_type='text/ics')
             response['Content-Disposition'] = 'attachment; filename="export.ics"'
