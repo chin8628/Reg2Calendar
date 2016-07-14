@@ -1,0 +1,35 @@
+{% extends "genclass/base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+
+    <h1>Help</h1>
+    <p>For someone who though content on index isn't clear.</p>
+
+{% endblock %}
+
+{% block content %}
+
+    <section  class="col-sm-12">
+        <ul id="help">
+            <li>
+                Open your reg.kmitl and find youe table's classroom (They called "studytable").
+                If you cannot remember what page that we are meaning, Look this image.
+                <img src="{% static 'genclass/img/example_table.png' %}">
+            </li>
+            <li>
+                Right-click on mouse then choose "View page source" or something like that.
+            </li>
+            <li>
+                Copy that source code. JUST COPY ALL OF IT. (CTRL+A and CTRP+C)
+            </li>
+            <li>
+                Paste source code into form "report_studytable_show.php's source code"
+            </li>
+            <li>
+                Click "convert" button, FINISHED. You have a time for drink coffee or tea.
+            </li>
+        </ul>
+    </section>
+
+{% endblock %}
