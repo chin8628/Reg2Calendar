@@ -98,6 +98,15 @@ def create_ical_download(open_day, end_day, data):
 
 def getSubject(data):
 
+    # cnt+0 -> No. subject's row
+    # cnt+1 -> ID subject
+    # cnt+2 -> Subject's name
+    # cnt+3 -> Unit
+    # cnt+4 -> Sec(Group)
+    # cnt+5 -> Datetime
+    # cnt+6 -> Room
+    # cnt+7 -> Building
+
     # Crop only subject data, Remove Header of table and page
     data = data[13:]
 
