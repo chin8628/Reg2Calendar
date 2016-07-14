@@ -73,26 +73,17 @@ def create_ical_download(open_day, end_day, data):
     cal.add('TZNAME', 'ICT')
     cal.add('DTSTART', datetime(1970, 1, 1))
 
-    cnt = 13
-    while (cnt < len(data) - 13):
+    subjects = getSubject(semester_open_day, semester_end_day, data)
+
+    for subject in subjects:
         event = Event()
-        time = get_time(data[cnt + 5])
-        day_of_week = get_DOW(data[cnt + 5])
-
-        first_date = datetime.strptime(open_day, "%Y%m%d")
-        while first_date.strftime("%a").upper()[:2] != day_of_week:
-            first_date = first_date + timedelta(1)
-        first_date = first_date.strftime("%Y%m%d")
-
-        event['summary'] = data[cnt + 2]
-        event['dtstart'] = first_date + time['start']
-        event['dtend'] = first_date + time['end']
-        event['rrule'] = 'FREQ=WEEKLY;UNTIL=' + end_day + ';BYDAY=' + day_of_week
-        event['description'] = "Just test"
-        event['location'] = "King Mongkut's Institute of Technology Ladkrabang, 1 Chalong Krung, Thanon Chalong Krung, Lat Krabang, Bangkok 10520"
-
+        event['summary'] = subject['subject']
+        event['dtstart'] = subject['date_start'] + subject['time_start']
+        event['dtend'] = subject['date_start'] + subject['time_end']
+        event['rrule'] = 'FREQ=WEEKLY;UNTIL=' + semester_end_day + ';BYDAY=' + subject['day_of_week']
+        event['description'] = subject['description']
+        event['location'] = subject['location']
         cal.add_component(event)
-        cnt += 8
 
     return display(cal.to_ical())
 
