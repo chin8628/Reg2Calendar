@@ -98,9 +98,12 @@ def create_ical_download(open_day, end_day, data):
 
 def getSubject(data):
 
+    # Crop only subject data, Remove Header of table and page
+    data = data[13:]
+
     subject_list = list()
 
-    cnt = 13
+    cnt = 0
     while (cnt < len(data) - 13):
         subject = dict()
         time = get_time(data[cnt + 5])
