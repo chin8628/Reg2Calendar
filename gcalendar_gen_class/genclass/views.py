@@ -9,6 +9,7 @@ def index(request):
         form = UploadText(request.POST)
         if form.is_valid():
             data = convert2calendar(form.cleaned_data['regHtml'])
+
             if data == 0 :
                 error = '<div class="alert alert-danger" role="alert"><b>Error :</b> Wrong html source code!</div>'
                 return render(request, 'genclass/index.html', {'form': form, 'error': error})
