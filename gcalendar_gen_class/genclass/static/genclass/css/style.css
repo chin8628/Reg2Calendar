@@ -9,12 +9,10 @@ img {
 }
 
 header{
-    margin-bottom: 10px;
     padding: 10px;
 }
 
 footer{
-    margin-bottom: 10px;
     padding: 10px;
 }
 
@@ -25,7 +23,6 @@ hr {
 }
 
 #main{
-    margin-bottom: 10px;
     padding: 10px;
 }
 
