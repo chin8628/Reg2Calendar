@@ -1,0 +1,66 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <title>Generate G-calendar import.</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'genclass/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'genclass/css/style.css' %}">
+    </head>
+
+    <header class="container col-sm-offset-1 col-sm-10 col-md-offset-3 col-md-6">
+
+        {% block header %} {% endblock %}
+        <hr>
+
+    </header>
+
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="main" class="container col-sm-offset-2 col-sm-10 col-md-offset-3 col-md-6">
+
+            {% block content %} {% endblock %}
+
+        </div>
+
+    </body>
+
+    <footer class="row col-sm-offset-1 col-sm-10 col-md-offset-3 col-md-6">
+
+        <hr>
+        <div class="container col-sm-12">
+            <p>This project purpose to try Django framework If you found any bug/problem Please tell me. Email: 58070077@kmitl.ac.th</p>
+            <p>
+                Developed by <a href="http://www.cloudian.in.th">Cloudian Studio</a>
+                | <a href="https://github.com/chin8628/Reg2Calendar">Github</a>
+                | <a href="/help">Help</a>
+            </p>
+            <p>The MIT License (MIT) | Copyright (c) 2016 Boonyarith Piriyothinkul</p>
+        </div>
+
+    </footer>
+
+    <script src="{% static 'genclass/js/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'genclass/js/bootstrap.min.js' %}"></script>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+
+</html>
