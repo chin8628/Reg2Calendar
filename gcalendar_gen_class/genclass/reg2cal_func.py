@@ -3,7 +3,7 @@ from django import forms
 
 from icalendar import Calendar, Event
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
+from datetime import datetime as Datetime, timedelta
 import html5.forms.widgets as html5_widgets
 
 class UploadText(forms.Form):
@@ -24,10 +24,10 @@ def get_time(date_input):
     date_input = date_input.split(" ")
     time = date_input[1].split("-")
 
-    start_time = datetime.strptime(time[0], "%H:%M")
+    start_time = Datetime.strptime(time[0], "%H:%M")
     start_time = start_time.strftime("T%H%M%S")
 
-    end_time = datetime.strptime(time[1], "%H:%M")
+    end_time = Datetime.strptime(time[1], "%H:%M")
     end_time = end_time.strftime("T%H%M%S")
 
     return {'start': start_time, 'end': end_time}
@@ -50,19 +50,10 @@ def display(text):
 
 def create_ical_download(open_day, end_day, data):
 
-    semester_open_day = datetime.strptime(open_day, "%Y-%m-%d").strftime("%Y%m%d")
-    semester_end_day = (datetime.strptime(end_day, "%Y-%m-%d") + timedelta(1)).strftime("%Y%m%d")
+    semester_open_day = Datetime.strptime(open_day, "%Y-%m-%d").strftime("%Y%m%d")
+    semester_end_day = (Datetime.strptime(end_day, "%Y-%m-%d") + timedelta(1)).strftime("%Y%m%d")
 
-    description_list = {
-                    'code': 'รหัสวิชา',
-                    'subject': 'ชื่อวิชา',
-                    'unit': 'หน่วยกิต',
-                    'group': 'กลุ่ม',
-                    'datetime': 'วัน-เวลาเรียน',
-                    'class': 'ห้องเรียน',
-                    'building': 'ตึก'
-                }
-
+    # Add header of iCalendar
     cal = Calendar()
     cal.add('PRODID', '-//Google Inc//Google Calendar 70.9054//EN')
     cal.add('VERSION', '2.0')
@@ -71,7 +62,7 @@ def create_ical_download(open_day, end_day, data):
     cal.add('TZOFFSETFROM', timedelta(hours=7))
     cal.add('TZOFFSETTO', timedelta(hours=7))
     cal.add('TZNAME', 'ICT')
-    cal.add('DTSTART', datetime(1970, 1, 1))
+    cal.add('DTSTART', Datetime(1970, 1, 1))
 
     subjects = getSubject(semester_open_day, semester_end_day, data)
 
@@ -106,7 +97,6 @@ def getSubject(semester_open_day, semester_end_day, data):
 
     cnt = 0
     while (cnt < len(data) - 13):
-
         subject = dict()
 
         # Get dict of time (look at get_time to find key's name)
@@ -117,21 +107,53 @@ def getSubject(semester_open_day, semester_end_day, data):
 
         # first_date is date that subject is begin first time
         # loop run until found date that day of week equal day of week from student's table
-        first_date = datetime.strptime(semester_open_day, "%Y%m%d")
+        first_date = Datetime.strptime(semester_open_day, "%Y%m%d")
         while first_date.strftime("%a").upper()[:2] != day_of_week:
             first_date = first_date + timedelta(1)
         first_date = first_date.strftime("%Y%m%d")
 
-        subject['subject'] = data[cnt + 2]
+        # Date time data get from loop above here
         subject['date_start'] = first_date
         subject['time_start'] = time['start']
         subject['date_end'] = first_date
         subject['time_end'] = time['end']
         subject['day_of_week'] = day_of_week
-        subject['description'] = "Just test"
+
+        subject['no'] = data[cnt]
+        subject['id_subject'] = data[cnt+1]
+        subject['subject'] = data[cnt+2]
+        subject['unit'] = data[cnt+3]
+        subject['group'] = data[cnt+4]
+        subject['room'] = data[cnt+6]
+        subject['building'] = data[cnt+7]
         subject['location'] = "King Mongkut's Institute of Technology Ladkrabang, 1 Chalong Krung, Thanon Chalong Krung, Lat Krabang, Bangkok 10520"
+
+        subject['description'] = getDescription(subject, data[cnt + 5])
 
         subject_list.append(subject)
         cnt += 8
 
     return subject_list
+
+def getDescription(subject, origin_datetime):
+
+    # origin_datetime is text of datetime from table html that isn't process
+
+    description_list = {
+                    'subject': subject['id_subject'] + ": " + subject['subject'],
+                    'group': subject['group'],
+                    'unit': subject['unit'],
+                    'datetime': origin_datetime,
+                    'class': subject['room'],
+                    'building': subject['building']
+                }
+
+    desc_text = description_list['subject'] + "\n"
+    desc_text += "Group (Sec): " + description_list['group'] + "\n"
+    desc_text += "Unit: " + description_list['unit'] + "\n"
+    desc_text += "Time: " + description_list['datetime'] + "\n"
+    desc_text += "Building: " + description_list['class'] + "(" + description_list['building'] + ")\n"
+
+    print(desc_text)
+
+    return desc_text
