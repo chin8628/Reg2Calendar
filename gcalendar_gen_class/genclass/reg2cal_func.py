@@ -89,7 +89,7 @@ def create_ical_download(open_day, end_day, data):
 
 def getSubject(semester_open_day, semester_end_day, data):
 
-    # Pattern of data
+    # Pattern of index data's list
     # cnt+0 -> No. subject's row
     # cnt+1 -> ID subject
     # cnt+2 -> Subject's name
@@ -106,8 +106,13 @@ def getSubject(semester_open_day, semester_end_day, data):
 
     cnt = 0
     while (cnt < len(data) - 13):
+
         subject = dict()
+
+        # Get dict of time (look at get_time to find key's name)
         time = get_time(data[cnt + 5])
+
+        # Get day of week to 2 upper character
         day_of_week = get_DOW(data[cnt + 5])
 
         # first_date is date that subject is begin first time
