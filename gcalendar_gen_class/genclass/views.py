@@ -3,6 +3,7 @@ from django.shortcuts import render
 from .reg2cal_func import UploadText, convert2calendar, get_time, create_ical_download
 
 import csv
+import base64
 
 def index(request):
     if request.method == 'POST':
@@ -18,11 +19,11 @@ def index(request):
             end_day = form.cleaned_data['end_date_semester']
 
             content = create_ical_download(open_day, end_day, data)
+            content = str(base64.b64encode(bytes(content, 'utf-8')))[2:-1]
+            download_data = '<a id="ical_link" href="data:text/calendar;charset=utf-8;base64,' + content + '" download="export.ics" style="display: hidden">A</a>'
+            download_script = "$(document).ready(function(){ $('#ical_link')[0].click(); $('#ical_link').remove(); window.location.href = '/success'; });"
 
-            response = HttpResponse(content_type='text/ics')
-            response['Content-Disposition'] = 'attachment; filename="export.ics"'
-            response.write(content)
-            return response
+            return render(request, 'genclass/index.html', {'form': form, 'download_script': download_script, 'download_data': download_data})
     else:
         form = UploadText()
     return render(request, 'genclass/index.html', {'form': form})
