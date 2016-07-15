@@ -15,16 +15,29 @@
             {{ error }}
         {% endautoescape %}
 
-        <p>Attention! for the passenger who visit this site 1st time I have <a href="/help">HELP</a> for you.</p><br>
-
         <form method="post" enctype="multipart/form-data">
+
             {% csrf_token %}
+
             <div class="form-group">
+
                 {{ form.as_p }}
+
             </div>
+
             <button type="submit" class="btn btn-primary">Convert</button>
+            <p id="downloadify"></p>
+
         </form>
 
     </section>
+
+    {{ download_data | safe }}
+
+{% endblock %}
+
+{% block script %}
+
+    {{ download_script | safe }}
 
 {% endblock %}
