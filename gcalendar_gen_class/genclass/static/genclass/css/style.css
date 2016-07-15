@@ -8,8 +8,9 @@ img {
     width: 90%;
 }
 
-header{
+nav{
     padding: 10px;
+    margin-top: 20px;
 }
 
 footer{
