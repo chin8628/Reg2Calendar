@@ -104,16 +104,13 @@ def getSubject(semester_open_day, semester_end_day, data):
 
     # Crop only subject data, Remove Header of table and page
     data = data[header_amount:]
-    print str(data)
     subject_list = list()
 
     cnt = 0
     while (cnt < len(data)):
-        print '- ' , data[cnt+2] , ' -'
         subject = dict()
 
         # Get dict of time (look at get_time to find key's name)
-        # print '----- ' + data[cnt + 6] + ' -----'
         time = get_time(data[cnt + 6])
 
         # Get day of week to 2 upper character
