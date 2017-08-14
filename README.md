@@ -13,7 +13,7 @@ This project was developed in freetime when I was a first year student, Sorry ab
 Update html's template to match the new reg.kmitl's table layout
 
 **Version 1.0**
-First attempt to develop a tool for help me avoid a labour work (ctrl+c, ctrl+p) for create a event in google calendar.
+First attempt to develop a tool for help me avoid a labour work (ctrl+c, ctrl+v) for create a event in google calendar.
 
 ## Screenshot
 ![](http://i.imgur.com/hmtjVx5.png)
