@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 from django.http import HttpResponse
 from django import forms
+from django.utils.encoding import smart_text
 
 from icalendar import Calendar, Event
 from bs4 import BeautifulSoup
@@ -15,14 +18,14 @@ def convert2calendar(text):
     soup = BeautifulSoup(text, "html.parser")
 
     try:
-        subTD = soup.find('table' ,attrs={'align':'center'}).find_all('td')
+        subTD = soup.find_all('td')
     except AttributeError:
         return 0
 
     pure_text = list()
     for i in subTD:
         if i.text != "":
-            pure_text.append(str(i.text))
+            pure_text.append(smart_text(i.text, encoding='tis-620', strings_only=False, errors='strict').encode("utf-8"))
     return pure_text
 
 def get_time(date_input):
@@ -51,7 +54,7 @@ def get_DOW(date_str):
     return th2en[dow]
 
 def display(text):
-    return text.decode("utf-8").replace('\r\n', '\n').replace("\;", ";").replace('("', '').replace('("', '').replace('\,', ',').replace('",)', '').strip()
+    return text.decode("utf-8").replace('\r\n', '\n').replace("\;", ";").replace('("', '').replace('\,', ',').replace('",)', '').strip()
 
 def create_ical_download(open_day, end_day, data):
 
@@ -86,29 +89,35 @@ def create_ical_download(open_day, end_day, data):
 def getSubject(semester_open_day, semester_end_day, data):
 
     # Pattern of index data's list
-    # cnt+0 -> No. subject's row
-    # cnt+1 -> ID subject
-    # cnt+2 -> Subject's name
-    # cnt+3 -> Unit
-    # cnt+4 -> Sec(Group)
-    # cnt+5 -> Datetime
-    # cnt+6 -> Room
-    # cnt+7 -> Building
+    # cnt + 0 -> No. subject's row
+    # cnt + 1 -> ID subject
+    # cnt + 2 -> Subject's name
+    # cnt + 3 -> Unit
+    # cnt + 4 -> Sec(Group)
+    # cnt + 5-> lab section
+    # cnt + 6 -> Datetime
+    # cnt + 7 -> Room
+    # cnt + 8 -> Building
+
+    header_amount = 17
+    table_row = 9
 
     # Crop only subject data, Remove Header of table and page
-    data = data[13:]
-
+    data = data[header_amount:]
+    print str(data)
     subject_list = list()
 
     cnt = 0
-    while (cnt < len(data) - 13):
+    while (cnt < len(data)):
+        print '- ' , data[cnt+2] , ' -'
         subject = dict()
 
         # Get dict of time (look at get_time to find key's name)
-        time = get_time(data[cnt + 5])
+        # print '----- ' + data[cnt + 6] + ' -----'
+        time = get_time(data[cnt + 6])
 
         # Get day of week to 2 upper character
-        day_of_week = get_DOW(data[cnt + 5])
+        day_of_week = get_DOW(data[cnt + 6])
 
         # first_date is date that subject is begin first time
         # loop run until found date that day of week equal day of week from student's table
@@ -129,14 +138,14 @@ def getSubject(semester_open_day, semester_end_day, data):
         subject['subject'] = data[cnt+2]
         subject['unit'] = data[cnt+3]
         subject['group'] = data[cnt+4]
-        subject['room'] = data[cnt+6]
-        subject['building'] = data[cnt+7]
+        subject['room'] = data[cnt+7]
+        subject['building'] = data[cnt+8]
         subject['location'] = "King Mongkut's Institute of Technology Ladkrabang, 1 Chalong Krung, Thanon Chalong Krung, Lat Krabang, Bangkok 10520"
 
-        subject['description'] = getDescription(subject, data[cnt + 5])
+        subject['description'] = getDescription(subject, data[cnt + 6])
 
         subject_list.append(subject)
-        cnt += 8
+        cnt += table_row
 
     return subject_list
 
@@ -157,6 +166,6 @@ def getDescription(subject, origin_datetime):
     desc_text += "Group (Sec): " + description_list['group'] + "\n"
     desc_text += "Unit: " + description_list['unit'] + "\n"
     desc_text += "Time: " + description_list['datetime'] + "\n"
-    desc_text += "Building: " + description_list['class'] + "(" + description_list['building'] + ")\n"
+    desc_text += "Room: " + description_list['class'] + "(" + description_list['building'] + ")\n"
 
     return desc_text
