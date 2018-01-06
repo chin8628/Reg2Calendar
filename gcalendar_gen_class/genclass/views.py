@@ -18,8 +18,10 @@ def index(request):
             open_day = form.cleaned_data['open_date_semester']
             end_day = form.cleaned_data['end_date_semester']
 
+            data = [i.decode('utf-8') for i in data]
+
             content = create_ical_download(open_day, end_day, data)
-            content = base64.b64encode(str(content.encode('utf-8')))
+            content = base64.b64encode(content.encode()).decode('utf-8')
             download_data = '<a id="ical_link" href="data:text/calendar;charset=utf-8;base64,' + content + '" download="export.ics" style="display: hidden">A</a>'
             download_script = "$(document).ready(function(){ $('#ical_link')[0].click(); $('#ical_link').remove(); window.location.href = '/success'; });"
 
